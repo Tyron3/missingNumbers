@@ -1,0 +1,19 @@
+function missingIntegers( $mainArray ) {
+  $missingIntegersArray = array();
+  // Loop through 21 numbers -> 0 and 20 inclusive
+  for ($i = 0; $i <= 20; $i++) {
+       // If current number is not in the array, push that number into missingIntegersArray
+       if ( !in_array( $i, $mainArray ) ) array_push( $missingIntegersArray,$i );
+  }
+  // Convert missingIntegersArray array to string, and print
+  print_r( implode( ", ", $missingIntegersArray ) );
+  print_r("<br/>");
+}
+
+// Test cases
+$numbersArray1 = array( 0, 1,2,8,12,13 );
+$numbersArray2 = array( 1,2,5,12,16 );
+
+// Call function
+missingIntegers( $numbersArray1 );
+missingIntegers( $numbersArray2 );
