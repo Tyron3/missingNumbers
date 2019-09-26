@@ -1,19 +1,69 @@
-function missingIntegers( $mainArray ) {
+function missingIntegers( $mainArray, $maxNumber ) {
   $missingIntegersArray = array();
-  // Loop through 21 numbers -> 0 and 20 inclusive
-  for ($i = 0; $i <= 20; $i++) {
-       // If current number is not in the array, push that number into missingIntegersArray
-       if ( !in_array( $i, $mainArray ) ) array_push( $missingIntegersArray,$i );
+  // Loop through numbers -> first and last element inclusive
+  for ($i = 0; $i <= $maxNumber; $i++) {
+     // If current number is not in the array, push that number into missingIntegersArray
+     if ( !in_array( $i, $mainArray ) ) array_push( $missingIntegersArray,$i );
   }
-  // Convert missingIntegersArray array to string, and print
-  print_r( implode( ", ", $missingIntegersArray ) );
-  print_r("<br/>");
+
+  $result = array();
+  $index = 0;
+  $prev = null;
+
+  // Loop through missingIntegersArray -> first and last element inclusive
+  for($i=0; $i<count($missingIntegersArray); $i++) {
+   $num = $missingIntegersArray[$i];
+   
+   // If previous number is not empty, find the difference between current and previous
+   if($prev) {
+    $diff = $num - $prev;
+    
+    // If difference is greater than 1, increase array element
+    if($diff > 1) {
+     $index++;
+    }
+   }
+
+   // If result array is not set, set to empty array
+   if(!isset($result[$index])) {
+    $result[$index] = array();
+   }
+
+   $result[$index][] = $num;
+ 
+   // Set previous element to current element before loop increments
+   $prev = $num;
+  }
+
+  // Placeholders
+  $string = '';
+  $separator = ',';
+  
+  // Loop through multidimensional array
+  foreach($result as $key => $value) {
+   // Assign last index of array element
+   $lastIndex = count($value) - 1;
+      
+   // If the size of the array is equal to the current element of array, separator set to empty string
+   if(count($result) - 1 == $key) {
+    $separator = '';
+   }
+
+   // Concatenate first element with hyphen, last element, and separator
+   $string .= $value[0] . '-' . $value[$lastIndex] . $separator;
+  }
+
+  // Print result
+  print "<pre>";
+  print_r($string);
+  print "</pre>";
 }
 
 // Test cases
 $numbersArray1 = array( 0, 1,2,8,12,13 );
 $numbersArray2 = array( 1,2,5,12,16 );
+$maxNumber = 20;
 
 // Call function
-missingIntegers( $numbersArray1 );
-missingIntegers( $numbersArray2 );
+missingIntegers( $numbersArray1, $maxNumber );
+missingIntegers( $numbersArray2, $maxNumber );
